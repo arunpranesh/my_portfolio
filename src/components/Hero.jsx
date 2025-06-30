@@ -13,7 +13,13 @@ export default function Hero() {
           <p className="subtitle">Software Developer | Problem Solver | Tech Enthusiast</p>
           <div className="hero-buttons" data-aos="fade-up" data-aos-delay="200">
             <a href="#projects" className="btn">View My Work</a>
-            <a href="/resume.pdf" download="Arun-Pranesh-Resume" className="btn">
+            <a
+  href={`${process.env.PUBLIC_URL}/resume.pdf`}
+  download="ArunPranesh_Resume.pdf"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="btn"
+>
               <FontAwesomeIcon icon={faDownload} style={{ marginRight: "8px" }} />
               Download Resume
             </a>
