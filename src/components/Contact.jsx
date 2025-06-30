@@ -16,25 +16,27 @@ export default function Contact() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    emailjs.sendForm(
-  process.env.REACT_APP_EMAILJS_SERVICE_ID,
-  process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
-  form.current,
-  process.env.REACT_APP_EMAILJS_PUBLIC_KEY
-);
-      .then(
-        (result) => {
-          alert("Message sent successfully!");
-          setFormData({ name: "", email: "", message: "" });
-        },
-        (error) => {
-          alert("Failed to send message. Try again.");
-          console.error(error);
-        }
-      );
-  };
+  emailjs
+    .sendForm(
+      process.env.REACT_APP_EMAILJS_SERVICE_ID,
+      process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+      e.target,
+      process.env.REACT_APP_EMAILJS_PUBLIC_KEY
+    )
+    .then(
+      (result) => {
+        alert("Message sent successfully!");
+        setFormData({ name: "", email: "", message: "" });
+      },
+      (error) => {
+        console.error("Email sending error:", error.text);
+        alert("Oops! Something went wrong. Please try again later.");
+      }
+    );
+};
+
 
   return (
     <section className="contact-section" id="contact">
