@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import emailjs from "@emailjs/browser";
 import "./Contact.css";
 
 export default function Contact() {
+  const form = useRef();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,8 +17,23 @@ export default function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("Thanks for reaching out!");
-    setFormData({ name: "", email: "", message: "" });
+
+    emailjs.sendForm(
+  process.env.REACT_APP_EMAILJS_SERVICE_ID,
+  process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+  form.current,
+  process.env.REACT_APP_EMAILJS_PUBLIC_KEY
+);
+      .then(
+        (result) => {
+          alert("Message sent successfully!");
+          setFormData({ name: "", email: "", message: "" });
+        },
+        (error) => {
+          alert("Failed to send message. Try again.");
+          console.error(error);
+        }
+      );
   };
 
   return (
@@ -55,7 +73,13 @@ export default function Contact() {
           </span>
         </div>
 
-        <form className="contact-form" data-aos="zoom-in" data-aos-delay="200" onSubmit={handleSubmit}>
+        <form
+          ref={form}
+          className="contact-form"
+          data-aos="zoom-in"
+          data-aos-delay="200"
+          onSubmit={handleSubmit}
+        >
           <div className="input-group">
             <input
               type="text"
